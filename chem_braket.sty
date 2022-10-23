@@ -1,0 +1,65 @@
+% chem-braket.sty          Macros for chemist's bra-ket (|) notation
+% Shiv Upadhyay     shivnupadhyay@gmail.com     Last modified 06-Oct-2022.
+% This is free, unencumbered, unsupported software.
+%
+% Commands defined are (similar to original with c for chemists):
+% \cbra{ }   \cket{ }   \cbraket{ }   (small versions)
+% \Cbra{ }   \Cket{ }   \Cbraket{ }   (expanding versions)
+% 
+% The "small versions" use fixed-size brackets independent of their
+% contents, whereas the "expanding versions" make the brackets and 
+% vertical lines expand to envelop their contents (internally using 
+% the \left and \right commands).  You should use the vertical bar
+% character "|" to input any extra vertical lines.  In \Braket these
+% vertical lines will expand to match the arguments. E.g.,
+%
+%   \Braket{ \phi | \frac{\partial^2}{\partial t^2} | \psi }
+%
+% Likewise, you may make an expandable double-bar using either
+% the "\|" command or its local alias "||".
+%
+% NOT defined is "\ketbra" (for projection operators) because this was 
+% not defined in the previous package.
+%
+% The original implementation had this note:
+% > Because each definition is so small, it makes no sense to have a 
+% > complicated generic version for many bracket styles.  Instead, 
+% > you can just copy the definitions and change \langle or \rangle,
+% > to what you like.
+% 
+% This unfortunately led to the existence of this package.
+\def\cbra#1{\mathinner{({#1}|}}
+\def\cket#1{\mathinner{|{#1})}}
+\def\cbraket#1{\mathinner{({#1})}}
+\def\CBra#1{\left(#1\right|}
+\def\CKet#1{\left|#1\right)}
+%
+\let\protect\relax
+%
+{\catcode`\|=\active
+  \xdef\CBraket{\protect\expandafter\noexpand\csname CBraket \endcsname}
+  \expandafter\gdef\csname CBraket \endcsname#1{\begingroup
+     \ifx\CSavedDoubleVert\relax
+       \let\CSavedDoubleVert\|\let\|\CBraDoubleVert
+     \fi
+     \mathcode`\|32768\let|\CBraVert
+     \left({#1}\right)\endgroup}
+}
+\def\CBraVert{\@ifnextchar|{\|\@gobble}% turn || into \|
+     {\egroup\,\mid@vertical\,\bgroup}}
+\def\CBraDoubleVert{\egroup\,\mid@dblvertical\,\bgroup}
+\let\CSavedDoubleVert\relax
+
+% If the user is using e-TeX with its \middle primitive, use that for
+% verticals instead of \vrule.
+%
+\begingroup
+ \edef\@tempa{\meaning\middle}
+ \edef\@tempb{\string\middle}
+\expandafter \endgroup \ifx\@tempa\@tempb
+ \def\mid@vertical{\middle|}
+ \def\mid@dblvertical{\middle\SavedDoubleVert}
+\else
+ \def\mid@vertical{\mskip1mu\vrule\mskip1mu}
+ \def\mid@dblvertical{\mskip1mu\vrule\mskip2.5mu\vrule\mskip1mu}
+\fi

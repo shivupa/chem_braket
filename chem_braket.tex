@@ -1,0 +1,57 @@
+\documentclass[parskip=half, pagesize=auto, version=last]{scrartcl}
+
+\usepackage{fixltx2e}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{braket}
+\usepackage{chem_braket}
+\usepackage{microtype}
+
+\addtokomafont{title}{\rmfamily}
+
+\title{The \textsf{chem-braket} package}
+\subtitle{Macros for chemist's notation bra--ket $\left(\mid\right)$ notation}
+\author{Shiv Upadhyay\\\texttt{shivnupadhyay@gmail.com}}
+\date{23--Oct--2022}
+
+
+\begin{document}
+
+\maketitle
+
+Commands defined are:
+
+\begin{tabular}{@{}*{4}{>{\ttfamily\textbackslash}c<{\{~\}}}>{(}l<{~versions)}@{}}
+  cbra & cket & cbraket & small \\
+  CBra & CKet & CBraket & expanding
+\end{tabular}
+
+These function exactly like the \textsf{braket} package. 
+The ``small versions'' use fixed-size brackets independent of their
+contents, whereas the ``expanding versions'' make the brackets and 
+vertical lines expand to envelop their contents (internally using 
+the \verb+\left+ and \verb+\right+ commands). 
+You should use the vertical bar character ``\verb+|+'' to input any extra vertical lines. 
+In \verb+\Braket+ these vertical lines will expand to match the arguments.
+E.\,g.,
+
+\begingroup
+\renewcommand*{\arraystretch}{1.7}
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{@{}>{\footnotesize}r>{$\displaystyle}l<{$}@{}}
+  \verb+\CBraket{ \phi | \frac{\partial^2}{\partial t^2} | \psi }+ & \CBraket{ \phi | \frac{\partial^2}{\partial t^2} | \psi } \\
+  \verb+\CBraket{ \mu\nu | \lambda\sigma }+ & \CBraket{ \mu\nu | \lambda\sigma } \\
+\end{tabular}
+\endgroup
+
+This was recommended in the original package, so that is what I have done:
+\begin{verbatim}
+Because each definition is so small, it makes no sense to have a 
+complicated generic version for many bracket styles.  Instead, 
+you can just copy the definitions and change \verb+\langle+ or \verb+\rangle+,
+to what you like.
+\end{verbatim}
+
+\end{document}
