@@ -1,6 +1,4 @@
-# chem-braket.sty
-## Macros for chemist's bra-ket (|) notation
-## Shiv Upadhyay     shivnupadhyay@gmail.com     Last modified 06-Oct-2022.
+# chem-braket.sty - Macros for chemist's bra-ket (|) notation
 This is free, unencumbered, unsupported software.
 
 Commands defined are (similar to original with c for chemists):
@@ -27,3 +25,9 @@ The original implementation had this note:
 > to what you like.
 
 This unfortunately led to the existence of this package.
+
+
+## Usage
+ - Place `chem-braket.sty` in your latex working directory
+ - Add the line `\usepackage{chem_braket}` to your preamble
+I could figure out how to add this to CTAN if requested.
